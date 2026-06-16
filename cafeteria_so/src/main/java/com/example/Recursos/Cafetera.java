@@ -9,11 +9,12 @@ public class Cafetera {
 
     public void prepararCafe(Pedido pedido) {
         mutex.lock();
+        long espera // hay que hacr lo del tiempo
         try {
             Thread.sleep(pedido.getTiempoPreparacion());
             System.out.println("Preparado para el pedido: " + pedido.getProducto());
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         } finally {
             mutex.unlock();
         }
