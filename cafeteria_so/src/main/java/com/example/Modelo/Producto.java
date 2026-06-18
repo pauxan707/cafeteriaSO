@@ -1,7 +1,18 @@
 package com.example.Modelo;
 
 public enum Producto {
-    CAFE,
-    TÉ,
-    CHOCOLATE
+    CAFE(30),
+    SANGUCHE(60),
+    AGUA(10),
+    BROWNIE(15);
+
+    private final int tiempoBase;
+
+    Producto(int tiempoBase) {
+        this.tiempoBase = tiempoBase;
+    }
+
+    public int getTiempoBase() {
+        return tiempoBase;
+    }
 }

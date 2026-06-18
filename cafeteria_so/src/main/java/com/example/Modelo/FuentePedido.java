@@ -1,5 +1,7 @@
 package com.example.Modelo;
 
-public class FuentePedido {
-
+public enum FuentePedido {
+    APP,
+    TOTEM,
+    MOSTRADOR
 }
