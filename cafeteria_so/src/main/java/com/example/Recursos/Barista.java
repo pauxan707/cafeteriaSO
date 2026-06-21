@@ -6,7 +6,7 @@ import com.example.Modelo.Pedido;
 import com.example.Modelo.Producto;
 import com.example.Modelo.Scheduler;
 
-public class Barista {
+public class Barista implements Runnable{
     //creo N instancias en main de hilos de baristas
     private int id;
     private Cafetera cafetera;
