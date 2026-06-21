@@ -5,8 +5,11 @@ import java.util.concurrent.locks.ReentrantLock;
 import com.example.Modelo.Pedido;
 
 public class Cafetera {
-    ReentrantLock mutex = new ReentrantLock();
+     private ReentrantLock mutex;
 
+    public Cafetera() {
+        this.mutex = new ReentrantLock();
+    }
     public void prepararCafe(Pedido pedido) {
         mutex.lock();
         try {

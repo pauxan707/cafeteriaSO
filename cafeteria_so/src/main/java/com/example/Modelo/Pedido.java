@@ -23,4 +23,7 @@ public class Pedido {
         return producto;
     }
 
+    public int getId(){
+        return id;
+    }
 }
