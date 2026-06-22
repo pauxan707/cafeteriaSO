@@ -30,13 +30,15 @@ public class Pedido {
     public int getId(){
         return id;
     }
-    public void calcularPrioridad()  //debe estar aca por EXPERT.
-  {
-    int prioridadCafe= 0;
-if (producto == producto.CAFE)
-{
-    prioridadCafe = 1;
-}
-    prioridad= this.cliente.getPuntos() + this.cliente.rol.getPrioridadBase()+ prioridadCafe;
-  }
+
+    /**
+     * Calcula prioridad SIN envejecimiento (se añade en Scheduler, para respetar EXPERT)
+     * En función de café, fidelidad y rol del cliente.
+     */
+    public void calcularPrioridad() {  //debe estar aca por EXPERT.
+        int prioridadCafe = (producto == Producto.CAFE) ? 15 : 0; //15 de prioridad extra si el producto es café
+        
+        prioridad = this.cliente.getPuntos() + this.cliente.rol.getPrioridadBase() + prioridadCafe; 
+        
+    }
 }
