@@ -1,5 +1,10 @@
 package com.example.Modelo;
 
+/**
+ * Clase que modela cada pedido que ingresa al sistema.
+ * Cada pedido tiene UN SOLO producto.
+ * Se encarga de calcular su prioridad base, sin envejecimiento.
+ */
 public class Pedido {
     int id;
     Cliente cliente;
@@ -11,12 +16,25 @@ public class Pedido {
     private long tiempoEntrega; // estos son para los calculos
     double prioridad;
 
+    /**
+     * 
+     * @param id
+     * @param cliente
+     * @param producto
+     * @param tiempoPreparacion
+     * @param fuentePedido
+     */
     public Pedido(int id, Cliente cliente, Producto producto, int tiempoPreparacion, FuentePedido fuentePedido) {
         this.id = id;
         this.cliente = cliente;
         this.producto = producto;
         this.tiempoPreparacion = tiempoPreparacion;
         this.fuentePedido = fuentePedido;
+        this.tiempoCreacion = System.nanoTime(); //al inicializarlo en el constructor, tomamos como tiempo de creación cuando se genera el pedido, NO cuando ingresa al scheduler.
+    }
+
+    public long getTiempoCreacion() {
+        return tiempoCreacion;
     }
 
     public int getTiempoPreparacion() {
