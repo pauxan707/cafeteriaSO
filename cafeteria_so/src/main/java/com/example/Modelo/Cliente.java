@@ -11,6 +11,7 @@ public class Cliente {
         this.puntosFidelidad = puntosFidelidad;
         this.nombre= nombre;
         this.id = id;
+    
     }
 
     public Rol getRol(){
@@ -32,6 +33,6 @@ public class Cliente {
     public void agregarPuntos(){
         this.puntosFidelidad++;
     }
-
-    
+  
+  
 }
