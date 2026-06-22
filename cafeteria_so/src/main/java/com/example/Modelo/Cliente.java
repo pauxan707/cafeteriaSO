@@ -12,4 +12,26 @@ public class Cliente {
         this.nombre= nombre;
         this.id = id;
     }
+
+    public Rol getRol(){
+        return rol;
+    }
+
+    public String getNombre(){
+        return nombre;
+    }
+
+    public int getPuntos(){
+        return puntosFidelidad;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public void agregarPuntos(){
+        this.puntosFidelidad++;
+    }
+
+    
 }

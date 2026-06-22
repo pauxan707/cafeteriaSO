@@ -6,6 +6,9 @@ public class Pedido {
     Producto producto;
     public int tiempoPreparacion;
     FuentePedido fuentePedido;
+    private long tiempoCreacion;
+    private long tiempoInicio;
+    private long tiempoEntrega; // estos son para los calculos
 
     public Pedido(int id, Producto producto, int tiempoPreparacion, FuentePedido fuentePedido) {
         this.id = id;
