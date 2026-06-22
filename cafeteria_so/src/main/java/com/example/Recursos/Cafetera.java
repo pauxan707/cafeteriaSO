@@ -5,7 +5,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import com.example.Modelo.Pedido;
 
 public class Cafetera {
-     private ReentrantLock mutex;
+    private ReentrantLock mutex;
     private long tiempoOcupada;
 
     public Cafetera() {

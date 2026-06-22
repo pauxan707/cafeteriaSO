@@ -3,6 +3,9 @@ package com.example.Modelo;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+* Esta clase contiene la cola con prioridad que almacena los pedidos, y se encarga de devolver el siguiente pedido.
+*/
 public class Scheduler {
 private List<Pedido> colaPedidos = new LinkedList<>();
 

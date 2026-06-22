@@ -11,7 +11,7 @@ public class Pedido {
     private long tiempoEntrega; // estos son para los calculos
     double prioridad;
 
-    public Pedido(int id, Producto producto, int tiempoPreparacion, FuentePedido fuentePedido) {
+    public Pedido(int id, Cliente cliente, Producto producto, int tiempoPreparacion, FuentePedido fuentePedido) {
         this.id = id;
         this.cliente = cliente;
         this.producto = producto;
