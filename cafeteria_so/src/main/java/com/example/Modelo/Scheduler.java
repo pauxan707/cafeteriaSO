@@ -30,11 +30,14 @@ public class Scheduler {
             pedidoActual.calcularPrioridad(); // para que cargue el metodo y actualice la prioridad, que es un atributo dentro del pedido
             double prioridadPedidoActual = calcularPrioridadConEnvejecimiento(pedidoActual);
 
-            if (prioridadPedidoActual > mejorPrioridad) {
+            if (prioridadPedidoActual > mejorPrioridad) { //el desempate se define acá, si tienen valores iguales, gana el que fue añadido antes a la lista enlazada (desempate por FIFO). de todas formas, un empate entre doubles usando nanotime es casi imposible.
+                                                            //concretamente, si son iguales devuelve false, lo que tomaría a mejorPrioridad como mayor, y debido a que se recorre de izq a derecha, mejorPrioridad es un valor más antiguo que el siguiente en la lista.
                 mejorPrioridad = prioridadPedidoActual;
                 pedidoDeMayorPrioridad = pedidoActual;
                 
             }
+
+            
         }
 
         colaPedidos.remove(pedidoDeMayorPrioridad); //es seguro quitar el item acá, ya que está dentro de una sección crítica synchronized. Nadie lo leerá mientras se quita.
