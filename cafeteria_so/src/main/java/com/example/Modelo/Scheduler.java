@@ -6,11 +6,21 @@ import java.util.List;
 /**
 * Esta clase contiene la cola con prioridad que almacena los pedidos, y se encarga de devolver el siguiente pedido.
 */
-public class Scheduler { //TODO: implementar un lock para productores-consumidores, tomando fuentes y calculos como secicones criticas
+public class Scheduler { 
     private List<Pedido> colaPedidos = new LinkedList<>();
     private static final double FACTOR_ENVEJECIMIENTO = 0.2; //factor extra que regula el envejecimiento.
 
-    public Pedido obtenerSiguientePedido() {
+    public synchronized void agregarPedido(Pedido pedido) {
+        colaPedidos.add(pedido);
+        notify(); //usamos notify en lugar de notifyall porque no importa cuál hilo se desipierta ya que todos son baristas y esperan lo mismo.
+    }
+
+
+    public synchronized Pedido obtenerSiguientePedido() throws InterruptedException {
+
+        while (colaPedidos.isEmpty()) {
+            wait(); //duerme hasta que llegue un pedido. Esta es una ventaja de monitor (synchronized) sobre un mutex, evita busy waiting del barista que pide pedido.
+        }
         
         Pedido pedidoDeMayorPrioridad = null; // guardo el PEDIDO 
         double mejorPrioridad = Double.NEGATIVE_INFINITY;
@@ -27,6 +37,7 @@ public class Scheduler { //TODO: implementar un lock para productores-consumidor
             }
         }
 
+        colaPedidos.remove(pedidoDeMayorPrioridad); //es seguro quitar el item acá, ya que está dentro de una sección crítica synchronized. Nadie lo leerá mientras se quita.
         return pedidoDeMayorPrioridad;
     }
 
