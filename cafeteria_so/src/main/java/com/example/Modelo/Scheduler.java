@@ -16,19 +16,25 @@ while (i < colaPedidos.size())
 {
 
     Pedido pedidoActual= colaPedidos.get(i);
+    pedidoActual.calcularPrioridad(); //para que cargue el metodo
 
     if (mejorPrioridad == null)
 {
     mejorPrioridad = pedidoActual;
 }
 
+if (pedidoActual.prioridad < mejorPrioridad.prioridad)
+{
+    pedidoActual.prioridad= pedidoActual.prioridad; //ENVEJECE
+}  //  PONER ACA LA FORMULA !!!!!!!!!!!11!!!!!!!!!!!1!!
+
 if (pedidoActual.prioridad > mejorPrioridad.prioridad)
 {
-    mejorPrioridad= pedidoActual;
+    mejorPrioridad= pedidoActual; //cambio el mejor pedido por el actual
 }
+ i= +1;
 
 } 
-//todavia no calculo envejecimiento. Pero DEBE
-// Hacerse en este mismo metodo (o llamar a otro metodo desde aca)
+
 }
 }

@@ -21,6 +21,7 @@ public class Barista implements Runnable{
     @Override
     public void run() {
         // while si no esta siendo usado?
+
             prepararPedido(pedido);
         }
     }
