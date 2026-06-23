@@ -4,7 +4,11 @@ public enum Producto {
     CAFE(30),
     SANGUCHE(60),
     AGUA(10),
-    BROWNIE(15);
+    BROWNIE(15),
+    MILANESA(100),
+    ALFAJOR(20),
+    TALLARINES_CON_TUCO(555); //uno que dure bastante
+
 
     private final int tiempoBase;
 

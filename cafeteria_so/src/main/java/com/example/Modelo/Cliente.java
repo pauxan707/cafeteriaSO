@@ -5,12 +5,13 @@ public class Cliente {
     int puntosFidelidad;
     String nombre;
     int id;
+    private static int idCounter = 1;
 
-    public Cliente(Rol rol, int puntosFidelidad, String nombre, int id){
+    public Cliente(String nombre, Rol rol){
         this.rol = rol;
-        this.puntosFidelidad = puntosFidelidad;
         this.nombre= nombre;
-        this.id = id;
+        this.id = idCounter;
+        idCounter++;
     
     }
 
