@@ -7,6 +7,8 @@ public class Main {
         Caja caja = new Caja(500); 
         long inicioSimulacion = System.nanoTime();
         
+
+        //TODO: el programa termina cuando no hay más pedidos. cómo vamos a chequear eso?
         for (int i = 0; i<100; i++)
         System.out.println("a");
         
