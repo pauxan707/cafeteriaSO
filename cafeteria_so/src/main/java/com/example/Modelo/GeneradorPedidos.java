@@ -17,7 +17,7 @@ public class GeneradorPedidos {
         this.randomConSemilla = new Random(semilla);
     }
 
-    public List<Pedido> generarPedidos(int cantidad) {
+    public List<Pedido> generarPedidos(int cantidad, FuentePedido fuente) {
         
 
         return null;

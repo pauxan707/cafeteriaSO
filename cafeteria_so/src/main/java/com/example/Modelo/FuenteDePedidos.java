@@ -22,7 +22,10 @@ public class FuenteDePedidos implements Runnable{
     public void run()
     {
     
-     // que hago aca?  hasta ahi llegue
+     
+
+     //marcaringreso
+     //agregar scheduler
     }
     public void generarPedido(int id, Cliente cliente, Producto producto, int tiempoPreparacion, FuentePedido fuentePedido)
     {
