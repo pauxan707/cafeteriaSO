@@ -11,10 +11,10 @@ public class Pedido {
     Producto producto;
     public int tiempoPreparacion;
     FuentePedido fuentePedido;
-    private long tiempoCreacion;
-    private long tiempoInicio;
-    private long tiempoEntrega; // estos son para los calculos
+    private long tiempoCreacion; //desde que se pide hasta entregar 
+    private long tiempoEntrega; // tiempo en el scheduler 
     double prioridad;
+    public long getTiempoCreacion;
 
     /**
      * 
@@ -30,14 +30,7 @@ public class Pedido {
         this.producto = producto;
         this.tiempoPreparacion = tiempoPreparacion;
         this.fuentePedido = fuentePedido;
-    }
-
-    public void setFuentePedido(FuentePedido fuente) { //agregamos estos métodos para qutiarlos del constructor, ya que primero creamos en el generador, SIN estos dos campos
-        this.fuentePedido = fuente;
-    }
-
-    public void marcarIngreso() { //idem ^^^^
-        this.tiempoCreacion = System.nanoTime();
+        this.tiempoCreacion = System.nanoTime(); //al inicializarlo en el constructor, tomamos como tiempo de creación cuando se genera el pedido, NO cuando ingresa al scheduler.
     }
 
     public long getTiempoCreacion() {
