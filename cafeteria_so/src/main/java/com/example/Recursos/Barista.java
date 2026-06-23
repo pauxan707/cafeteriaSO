@@ -22,7 +22,19 @@ public class Barista implements Runnable{
     public void run() {
         // while si no esta siendo usado?
 
-            prepararPedido(pedido);
+             while (!Thread.currentThread().isInterrupted()) {
+
+        try {
+
+            Pedido pedido = scheduler.obtenerSiguientePedido();
+
+            prepararPedido(pedido, cafetera);
+
+        } catch (InterruptedException e) {
+
+            Thread.currentThread().interrupt();
+        }
+    }
         }
     }
 
@@ -36,10 +48,11 @@ public class Barista implements Runnable{
 
     private void prepararOtraCosa(Pedido pedido) {
         try {
-            Thread.sleep(pedido.getTiempoPreparacion());
             System.out.println("Preparando pedido: " + pedido.getProducto() + id + "lo esta preparando");
+            Thread.sleep(pedido.getTiempoPreparacion());
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+            //aca llamo a la caja?!
         }
     }
 

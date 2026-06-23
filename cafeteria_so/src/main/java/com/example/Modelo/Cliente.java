@@ -1,5 +1,8 @@
 package com.example.Modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cliente {
     Rol rol;
     int puntosFidelidad;
