@@ -14,7 +14,7 @@ public class Pedido {
     private long tiempoCreacion; //desde que se pide hasta entregar 
     private long tiempoEntrega; // tiempo en el scheduler 
     double prioridad;
-    public long getTiempoCreacion;
+    
 
     /**
      * 
@@ -30,7 +30,10 @@ public class Pedido {
         this.producto = producto;
         this.tiempoPreparacion = producto.getTiempoBase();
         this.fuentePedido = fuentePedido;
-        this.tiempoCreacion = System.nanoTime(); //al inicializarlo en el constructor, tomamos como tiempo de creación cuando se genera el pedido, NO cuando ingresa al scheduler.
+    }
+
+    public void marcarIngreso() { //no se define en el constructor, se define cuando lo agarra el hilo de fuente, NO al ser creado por el generador.
+        this.tiempoCreacion = System.nanoTime();
     }
 
     public long getTiempoCreacion() {
