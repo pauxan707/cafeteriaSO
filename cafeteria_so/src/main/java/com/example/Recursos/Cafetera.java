@@ -22,7 +22,7 @@ public class Cafetera {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         } finally {
-            mutex.unlock();
+            mutex.unlock(); //IMPORTANTÍSIMA esta línea, ya que de lo contrario si el hilo (barista) es interrumpido, podría quedar eternamente ocupado. 
         }
 
     }
