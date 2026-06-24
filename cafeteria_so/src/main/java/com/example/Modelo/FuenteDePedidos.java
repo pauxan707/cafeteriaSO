@@ -32,7 +32,7 @@ public class FuenteDePedidos implements Runnable{
 
             catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                return;
+                return; //como fue interrumpido (al acabar el programa), debemos hacer que se finalice, se acaba el run()
             }
         }
     }
