@@ -13,24 +13,29 @@ import java.util.List;
 public class FuenteDePedidos implements Runnable{
     public FuentePedido via;
     private List<Pedido> listaPedidos = new LinkedList<>();
+    private Scheduler scheduler;
 
-    public FuenteDePedidos(FuentePedido via){
+    public FuenteDePedidos(FuentePedido via, Scheduler scheduler, List<Pedido> listaPedidos){
         this.via = via;
+        this.scheduler = scheduler;
+        this.listaPedidos = listaPedidos;
     }
 
     @Override
-    public void run()
-    {
-    
-     
+    public void run() {
+        for (Pedido pedido : listaPedidos) {
+            try {
+            Thread.sleep(via.getduración() * 100); // tomamos una escala de simulación de 1:10, entonces multiplicamos la duración por 100 (1000 de milisegundos, dividido 10 para la escala).
+            pedido.marcarIngreso();
+            scheduler.agregarPedido(pedido);
+            }
 
-     //marcaringreso
-     //agregar scheduler
+            catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+        }
     }
-    public void generarPedido(int id, Cliente cliente, Producto producto, int tiempoPreparacion, FuentePedido fuentePedido)
-    {
-        Pedido nuevo = new Pedido(id, cliente, producto,tiempoPreparacion,this.via);
-        listaPedidos.add(nuevo);
-    }
+    
 
 }

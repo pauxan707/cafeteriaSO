@@ -5,7 +5,11 @@ import com.example.Recursos.Caja;
 public class Main {
     public static void main(String args[]){
         Caja caja = new Caja(500); 
+        //poner generadores
+
+
         long inicioSimulacion = System.nanoTime();
+        
         
 
         //TODO: el programa termina cuando no hay más pedidos. cómo vamos a chequear eso?
