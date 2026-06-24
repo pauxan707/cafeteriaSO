@@ -18,7 +18,7 @@ public class Caja {
         try {
             Thread.sleep(tiempoCobro);
             System.out.println("Cobrando el pedido " + pedido.getId());
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         } finally {
             mutex.unlock();
