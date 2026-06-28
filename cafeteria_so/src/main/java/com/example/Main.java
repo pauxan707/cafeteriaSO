@@ -12,7 +12,7 @@ public class Main {
         GeneradorPedidos generador = new GeneradorPedidos(67);
         Scheduler scheduler = new Scheduler();
 
-        Thread app = new Thread(
+        Thread app = new Thread( //creamos las 3 fuentes, cada una con el scheduler y una lista generada por el generador
             new FuenteDePedidos(
                 FuentePedido.APP, 
                 scheduler, 
