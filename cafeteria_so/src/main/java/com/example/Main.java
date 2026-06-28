@@ -7,7 +7,7 @@ import com.example.Modelo.Scheduler;
 import com.example.Recursos.Caja;
 
 public class Main {
-    public static void main(String args[]){
+    public static void main(String args[]) throws InterruptedException {
         Caja caja = new Caja(500); 
         GeneradorPedidos generador = new GeneradorPedidos(67);
         Scheduler scheduler = new Scheduler();
@@ -38,12 +38,30 @@ public class Main {
 
 
         long inicioSimulacion = System.nanoTime();
+
+        app.start();
+        totem.start();
+        mostrador.start();
+
+
+
+        // hilos baristas 
+
+
+
+        app.join();
+        totem.join();
+        mostrador.join();
+        
+        scheduler.finalizar();
+
+
+        long duracionSimulacion = System.nanoTime() - inicioSimulacion;
+
+        
         
         
 
-        //TODO: el programa termina cuando no hay más pedidos. cómo vamos a chequear eso?
-        for (int i = 0; i<100; i++)
-        System.out.println("a");
         
 
     }

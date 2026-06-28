@@ -9,6 +9,12 @@ import java.util.List;
 public class Scheduler { 
     private List<Pedido> colaPedidos = new LinkedList<>();
     private static final double FACTOR_ENVEJECIMIENTO = 0.2; //factor extra que regula el envejecimiento.
+    private boolean terminado = false;
+
+    public synchronized void finalizar() {
+        terminado = true;
+        notifyAll();
+    }
 
     public synchronized void agregarPedido(Pedido pedido) {
         colaPedidos.add(pedido);
@@ -18,8 +24,11 @@ public class Scheduler {
 
     public synchronized Pedido obtenerSiguientePedido() throws InterruptedException {
 
-        while (colaPedidos.isEmpty()) {
+        while (colaPedidos.isEmpty() && !terminado) {
             wait(); //duerme hasta que llegue un pedido. Esta es una ventaja de monitor (synchronized) sobre un mutex, evita busy waiting del barista que pide pedido.
+        }
+        if (colaPedidos.isEmpty()) {
+            return null;
         }
         
         Pedido pedidoDeMayorPrioridad = null; // guardo el PEDIDO 

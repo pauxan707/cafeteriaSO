@@ -20,23 +20,19 @@ public class Barista implements Runnable{
 
     @Override
     public void run() {
-        // while si no esta siendo usado?
+        while (!Thread.currentThread().isInterrupted()) {
+            try {
+                Pedido pedido = scheduler.obtenerSiguientePedido();
+                if (pedido == null) break; //este null lo reciben cuando colaPedidos es empty, ya que scheduler devuelve null en ese caso
+                prepararPedido(pedido, cafetera);
+            }
 
-             while (!Thread.currentThread().isInterrupted()) {
-
-        try {
-
-            Pedido pedido = scheduler.obtenerSiguientePedido();
-
-            prepararPedido(pedido, cafetera);
-
-        } catch (InterruptedException e) {
-
-            Thread.currentThread().interrupt();
+            catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); 
+            }
         }
     }
-        }
-    }
+    
 
     public void prepararPedido(Pedido pedido, Cafetera cafetera) {
         if (pedido.getProducto() == Producto.CAFE) { 
