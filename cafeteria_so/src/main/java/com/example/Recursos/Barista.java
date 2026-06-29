@@ -55,7 +55,7 @@ public class Barista implements Runnable{
 
     private void prepararOtraCosa(Pedido pedido) {
         try {
-            System.out.println("Preparando pedido: " + pedido.getProducto() + id + "lo esta preparando");
+            System.out.println("Barista " + id + " preparando: " + pedido.getProducto() + " (pedido #" + pedido.getId() + ")");
             Thread.sleep(pedido.getTiempoPreparacion());
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
