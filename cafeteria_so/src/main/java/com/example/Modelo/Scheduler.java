@@ -6,10 +6,15 @@ import java.util.List;
 /**
 * Esta clase contiene la cola con prioridad que almacena los pedidos, y se encarga de devolver el siguiente pedido.
 */
-public class Scheduler { 
+public class Scheduler {
     private List<Pedido> colaPedidos = new LinkedList<>();
     private static final double FACTOR_ENVEJECIMIENTO = 0.2; //factor extra que regula el envejecimiento.
     private boolean terminado = false;
+    private final boolean envejecimientoActivo;
+
+    public Scheduler(boolean envejecimientoActivo) {
+        this.envejecimientoActivo = envejecimientoActivo;
+    }
 
     public synchronized void finalizar() {
         terminado = true;
@@ -66,6 +71,9 @@ public class Scheduler {
      * 
      */
     private double calcularPrioridadConEnvejecimiento(Pedido pedido){
+        if (!envejecimientoActivo) {
+            return pedido.prioridad;
+        }
         double diferencia = System.nanoTime() - pedido.getTiempoCreacion();
         double diferenciaEnSegundos = diferencia / 1_000_000_000.0;
         double bonusEnvejecimiento = Math.pow(diferenciaEnSegundos, 2) * FACTOR_ENVEJECIMIENTO;

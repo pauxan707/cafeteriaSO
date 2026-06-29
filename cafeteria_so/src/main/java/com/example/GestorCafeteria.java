@@ -1,10 +1,13 @@
 package com.example;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.example.Modelo.Cliente;
 import com.example.Modelo.Pedido;
+import com.example.Modelo.Rol;
 import com.example.Recursos.Cafetera;
 
 public class GestorCafeteria {
@@ -75,6 +78,30 @@ public class GestorCafeteria {
         return (suma / (double) pedidosAtendidos.size()) / 1_000_000.0;
     }
 
+
+    // tiempo promedio de espera (tiempoInicio - tiempoLlegada) desglosado por rol
+    public Map<Rol, Double> tiempoPromedioEsperaPorRol() {
+        Map<Rol, Long> sumasPorRol = new HashMap<>();
+        Map<Rol, Integer> conteosPorRol = new HashMap<>();
+
+        for (Rol rol : Rol.values()) {
+            sumasPorRol.put(rol, 0L);
+            conteosPorRol.put(rol, 0);
+        }
+
+        for (Pedido p : pedidosAtendidos) {
+            Rol rol = p.getCliente().getRol();
+            sumasPorRol.put(rol, sumasPorRol.get(rol) + (p.getTiempoInicio() - p.getTiempoLlegada()));
+            conteosPorRol.put(rol, conteosPorRol.get(rol) + 1);
+        }
+
+        Map<Rol, Double> promedios = new HashMap<>();
+        for (Rol rol : Rol.values()) {
+            int conteo = conteosPorRol.get(rol);
+            promedios.put(rol, conteo == 0 ? 0.0 : (sumasPorRol.get(rol) / (double) conteo) / 1_000_000.0);
+        }
+        return promedios;
+    }
 
     public double calcularPorcentajeCafetera(Cafetera cafetera, long duracionSimulacion) {
         return (cafetera.getTiempoOcupada() * 100.0) / duracionSimulacion;

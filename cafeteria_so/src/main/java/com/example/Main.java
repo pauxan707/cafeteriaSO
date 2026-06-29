@@ -1,8 +1,11 @@
 package com.example;
 
+import java.util.Map;
+
 import com.example.Modelo.FuenteDePedidos;
 import com.example.Modelo.FuentePedido;
 import com.example.Modelo.GeneradorPedidos;
+import com.example.Modelo.Rol;
 import com.example.Modelo.Scheduler;
 import com.example.Recursos.Barista;
 import com.example.Recursos.Cafetera;
@@ -12,18 +15,18 @@ import com.example.Recursos.Caja;
 public class Main {
     public static void main(String args[]) throws InterruptedException {
         //inicializamos recursos compartidos
-        Caja caja = new Caja(500); 
+        Caja caja = new Caja(200); 
         Cafetera cafetera = new Cafetera();
         GestorCafeteria gestor = new GestorCafeteria();
         GeneradorPedidos generador = new GeneradorPedidos(67);
-        Scheduler scheduler = new Scheduler();
+        Scheduler scheduler = new Scheduler(true);
 
         //fuentes de pedidos
         Thread app = new Thread( //creamos las 3 fuentes, cada una con el scheduler y una lista generada por el generador
             new FuenteDePedidos(
                 FuentePedido.APP, 
                 scheduler, 
-                generador.generarPedidos(10, FuentePedido.APP)
+                generador.generarPedidos(30, FuentePedido.APP)
             )
         );
 
@@ -31,7 +34,7 @@ public class Main {
             new FuenteDePedidos(
                 FuentePedido.TOTEM, 
                 scheduler, 
-                generador.generarPedidos(10, FuentePedido.TOTEM)
+                generador.generarPedidos(30, FuentePedido.TOTEM)
             )
         );
 
@@ -39,7 +42,7 @@ public class Main {
             new FuenteDePedidos(
                 FuentePedido.MOSTRADOR, 
                 scheduler, 
-                generador.generarPedidos(10, FuentePedido.MOSTRADOR)
+                generador.generarPedidos(30, FuentePedido.MOSTRADOR)
             )
         );
 
@@ -81,7 +84,13 @@ public class Main {
         System.out.printf("Espera promedio:         %.2f ms%n", gestor.tiempoPromedioEspera());
         System.out.printf("Tiempo promedio total:   %.2f ms%n", gestor.tiempoPromedioTotal());
         System.out.printf("Utilización cafetera:    %.2f%%%n", gestor.calcularPorcentajeCafetera(cafetera, duracionSimulacion));
-        System.out.printf("Pedidos con espera >5s:  %d%n", gestor.pedidosQueExcedieronEspera(5000));
+        System.out.printf("Pedidos con espera >3s:  %d%n", gestor.pedidosQueExcedieronEspera(3000));
+
+        Map<Rol, Double> esperaPorRol = gestor.tiempoPromedioEsperaPorRol();
+        System.out.println("--- Espera promedio por rol ---");
+        for (Map.Entry<Rol, Double> entrada : esperaPorRol.entrySet()) {
+            System.out.printf("  %-12s %.2f ms%n", entrada.getKey() + ":", entrada.getValue());
+        }
 
         
         
