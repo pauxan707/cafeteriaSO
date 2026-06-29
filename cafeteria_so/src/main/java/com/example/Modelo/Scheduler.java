@@ -8,7 +8,7 @@ import java.util.List;
 */
 public class Scheduler {
     private List<Pedido> colaPedidos = new LinkedList<>();
-    private static final double FACTOR_ENVEJECIMIENTO = 0.2; //factor extra que regula el envejecimiento.
+    private static final double FACTOR_ENVEJECIMIENTO = 0.02; //factor extra que regula el envejecimiento.
     private boolean terminado = false;
     private final boolean envejecimientoActivo;
 
@@ -63,7 +63,7 @@ public class Scheduler {
     /**
      * Método helper para calcular la prioridad final de cada pedido sumándole el envejecimiento.
      * La utiliza obtenerSiguientePedido() para comparar prioridades finales y saber cual devolver
-     * Utiliza una curva cuadrática de x**2
+     * Utiliza una curva cúbica de x**3
      * 
      * Precondición: asume que ya fue recalculada la prioridad, ya que accede directamente al atributo.
      * Sucede este recalculo en la primera línea del foreach de obtenerSiguientePedido().
@@ -76,7 +76,7 @@ public class Scheduler {
         }
         double diferencia = System.nanoTime() - pedido.getTiempoCreacion();
         double diferenciaEnSegundos = diferencia / 1_000_000_000.0;
-        double bonusEnvejecimiento = Math.pow(diferenciaEnSegundos, 2) * FACTOR_ENVEJECIMIENTO;
+        double bonusEnvejecimiento = Math.pow(diferenciaEnSegundos, 3) * FACTOR_ENVEJECIMIENTO;
         return pedido.prioridad + bonusEnvejecimiento;
     }
 }

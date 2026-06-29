@@ -26,7 +26,7 @@ public class Main {
             new FuenteDePedidos(
                 FuentePedido.APP, 
                 scheduler, 
-                generador.generarPedidos(30, FuentePedido.APP)
+                generador.generarPedidos(10, FuentePedido.APP)
             )
         );
 
@@ -34,7 +34,7 @@ public class Main {
             new FuenteDePedidos(
                 FuentePedido.TOTEM, 
                 scheduler, 
-                generador.generarPedidos(30, FuentePedido.TOTEM)
+                generador.generarPedidos(10, FuentePedido.TOTEM)
             )
         );
 
@@ -42,7 +42,7 @@ public class Main {
             new FuenteDePedidos(
                 FuentePedido.MOSTRADOR, 
                 scheduler, 
-                generador.generarPedidos(30, FuentePedido.MOSTRADOR)
+                generador.generarPedidos(10, FuentePedido.MOSTRADOR)
             )
         );
 
@@ -84,7 +84,7 @@ public class Main {
         System.out.printf("Espera promedio:         %.2f ms%n", gestor.tiempoPromedioEspera());
         System.out.printf("Tiempo promedio total:   %.2f ms%n", gestor.tiempoPromedioTotal());
         System.out.printf("Utilización cafetera:    %.2f%%%n", gestor.calcularPorcentajeCafetera(cafetera, duracionSimulacion));
-        System.out.printf("Pedidos con espera >3s:  %d%n", gestor.pedidosQueExcedieronEspera(3000));
+        System.out.printf("Pedidos con espera >0.5s:  %d%n", gestor.pedidosQueExcedieronEspera(500));
 
         Map<Rol, Double> esperaPorRol = gestor.tiempoPromedioEsperaPorRol();
         System.out.println("--- Espera promedio por rol ---");
