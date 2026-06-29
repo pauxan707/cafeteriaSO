@@ -1,7 +1,8 @@
 package com.example.Recursos;
 
-import java.util.concurrent.Semaphore;
+// import java.util.concurrent.Semaphore;
 
+import com.example.GestorCafeteria;
 import com.example.Modelo.Pedido;
 import com.example.Modelo.Producto;
 import com.example.Modelo.Scheduler;
@@ -11,11 +12,15 @@ public class Barista implements Runnable{
     private int id;
     private Cafetera cafetera;
     private Scheduler scheduler;
+    private Caja caja;
+    private GestorCafeteria gestor;
 
-    public Barista(int id, Cafetera cafetera, Scheduler scheduler) {
+    public Barista(int id, Cafetera cafetera, Scheduler scheduler, Caja caja, GestorCafeteria gestor) {
         this.id = id;
         this.cafetera = cafetera;
-        this.scheduler = scheduler; 
+        this.scheduler = scheduler;
+        this.caja = caja;
+        this.gestor = gestor;
     }
 
     @Override
@@ -24,7 +29,13 @@ public class Barista implements Runnable{
             try {
                 Pedido pedido = scheduler.obtenerSiguientePedido();
                 if (pedido == null) break; //este null lo reciben cuando colaPedidos es empty, ya que scheduler devuelve null en ese caso
+                pedido.marcarInicio();
                 prepararPedido(pedido, cafetera);
+                caja.cobrar(pedido);
+                pedido.marcarEntrega();
+
+                gestor.registrarCompra(pedido.getCliente());
+                gestor.registrarPedidoAtendido(pedido);
             }
 
             catch (InterruptedException e) {
@@ -48,12 +59,16 @@ public class Barista implements Runnable{
             Thread.sleep(pedido.getTiempoPreparacion());
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            //aca llamo a la caja?!
         }
     }
 
 
     /* 
+
+    ============NO USAR NO USAR NO USAR===========
+    código inical que decidimos NO usar en favor del actual, que trata a cada barista como un hilo en lugar de semaphore.
+    queda acá para referencia.
+
     private Semaphore baristasDisponibles;
 
     public Baristas(int cantidad){

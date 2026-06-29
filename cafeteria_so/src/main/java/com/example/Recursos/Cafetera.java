@@ -15,9 +15,9 @@ public class Cafetera {
     public void prepararCafe(Pedido pedido) {
         mutex.lock();
         try {
-            long inicio = System.currentTimeMillis();
+            long inicio = System.nanoTime();
             Thread.sleep(pedido.getTiempoPreparacion());
-            tiempoOcupada += System.currentTimeMillis() - inicio;
+            tiempoOcupada += System.nanoTime() - inicio;
             System.out.println("Preparado para el pedido: " + pedido.getProducto());
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

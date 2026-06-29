@@ -11,8 +11,10 @@ public class Pedido {
     Producto producto;
     public int tiempoPreparacion;
     FuentePedido fuentePedido;
-    private long tiempoCreacion; //desde que se pide hasta entregar 
-    private long tiempoEntrega; // tiempo en el scheduler 
+    private long tiempoCreacion; //momento en el que la fuente pide agregar al scheduler (NO el momento exacto en el que se entra; puede quedar esperando que se libere monitor)
+    private long tiempoInicio; //momento en que lo agarra un barista
+    private long tiempoEntrega; // momento en el que se entrega
+
     double prioridad;
     
 
@@ -32,9 +34,23 @@ public class Pedido {
         this.fuentePedido = fuentePedido;
     }
 
+    public Cliente getCliente() { return cliente; }
+
     public void marcarIngreso() { //no se define en el constructor, se define cuando lo agarra el hilo de fuente, NO al ser creado por el generador.
         this.tiempoCreacion = System.nanoTime();
     }
+
+    public void marcarInicio() {
+        this.tiempoInicio = System.nanoTime();
+    }
+
+    public void marcarEntrega() {
+        this.tiempoEntrega = System.nanoTime();
+    }
+
+    public long getTiempoInicio()   { return tiempoInicio; }
+    public long getTiempoEntrega()  { return tiempoEntrega; }
+    public long getTiempoLlegada()  { return tiempoCreacion; }
 
     public long getTiempoCreacion() {
         return tiempoCreacion;

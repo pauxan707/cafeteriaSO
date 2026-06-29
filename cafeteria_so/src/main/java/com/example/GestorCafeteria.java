@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.example.Modelo.Cliente;
 import com.example.Modelo.Pedido;
-import com.example.Modelo.Scheduler;
 import com.example.Recursos.Cafetera;
 
 public class GestorCafeteria {
@@ -30,31 +29,68 @@ public class GestorCafeteria {
     //t espera por pedido y promedio
     // t ptomedio de pedido desde que se pide hasta ue se entrega
 
-    public double calcularPorcentajeCafetera(Cafetera cafetera, long duracionSimulacion) {
-    return (cafetera.getTiempoOcupada() * 100.0) / duracionSimulacion;
-}
+
+
+    public void registrarPedidoAtendido(Pedido pedido) {
+        synchronized (pedidosAtendidos) { //obtiene el monitor de pedidosAtendidos, funciona esencialmente como un mutex
+            pedidosAtendidos.add(pedido);
+        }
+    }
 
     public List<Pedido> getPedidosAtendidos(){
         return pedidosAtendidos;
     }
 
-    public long tiempoEsperaPedido(){
-        for (Pedido p : pedidosAtendidos){
-           long espera = p.getTiempoCreacion;
-    }
-        return espera;
+
+
+    // ====================métodos de análisis===========
+    
+    //tiempo promedio hasta que lo agarra un barista
+    public double tiempoPromedioEspera() {
+        if (pedidosAtendidos.isEmpty()) {
+            return 0;
+        }
+
+        long suma = 0;
+
+        for (Pedido p : pedidosAtendidos) {
+            suma += p.getTiempoInicio() - p.getTiempoLlegada();
+        }
+
+        return (suma / (double) pedidosAtendidos.size()) / 1_000_000.0;
     }
 
-    //falta espera de tdos
-    //espera prom suma de las esperas/ pedidos atenditos.tamano
-    //rtengo un pedo entendiendo la eltra asi q no den bola a esto
-    // promedio de espera de tiemooCreacion desde    netra a q sale
+    //tiempo promedio total desde llegada hasta entrega
+    public double tiempoPromedioTotal() {
+        if (pedidosAtendidos.isEmpty()) {
+            return 0;
+        }
 
-    public int pedidosEspera(){
-    int UMBRAL = 10;
-    int excedidos = 0;
-    for (Pedido p : pedidosAtendidos) {
-        double espera = p.getTiempoInicio() - p.getTiempoLlegada();
-        if (espera > UMBRAL) excedidos++;
+        long suma = 0;
+
+        for (Pedido p : pedidosAtendidos) {
+            suma += p.getTiempoEntrega() - p.getTiempoLlegada();
+        }
+
+        return (suma / (double) pedidosAtendidos.size()) / 1_000_000.0;
     }
 
+
+    public double calcularPorcentajeCafetera(Cafetera cafetera, long duracionSimulacion) {
+        return (cafetera.getTiempoOcupada() * 100.0) / duracionSimulacion;
+    }
+
+
+    //cuantos pedidos superaron el umbral de espera (en ms, para que sea más legible )
+    public int pedidosQueExcedieronEspera(long umbralMs) {
+        int excedidos = 0;
+        for (Pedido p : pedidosAtendidos) {
+            long esperaMs = (p.getTiempoInicio() - p.getTiempoLlegada()) / 1_000_000;
+            if (esperaMs > umbralMs) {
+                excedidos++;
+            } 
+        }
+        return excedidos;
+    }
+
+}
